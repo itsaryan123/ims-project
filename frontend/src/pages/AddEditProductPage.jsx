@@ -61,6 +61,10 @@ const AddEditProductPage = () => {
     if (productId) fetProductById();
   }, [productId]);
 
+  useEffect(() => {
+    console.log("AddEditProductPage mounted", { name, pathname: window.location.pathname });
+  }, []);
+
   //metjhod to show message or errors
   const showMessage = (msg) => {
     setMessage(msg);

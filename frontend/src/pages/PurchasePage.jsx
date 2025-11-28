@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../component/Layout";
 import ApiService from "../service/ApiService";
+import { useNavigate } from "react-router-dom";
 
 const PurchasePage = () => {
   const [products, setProducts] = useState([]);
@@ -11,6 +12,8 @@ const PurchasePage = () => {
   const [note, setNote] = useState("");
   const [quantity, setQuantity] = useState("");
   const [message, setMessage] = useState("");
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchproductsAndSuppliers = async () => {
@@ -83,10 +86,17 @@ const PurchasePage = () => {
 
             <select
               value={productId}
-              onChange={(e) => setProductId(e.target.value)}
+              onChange={(e) => {
+                if (e.target.value === "add") {
+                  navigate("/add-product");
+                } else {
+                  setProductId(e.target.value);
+                }
+              }}
               required
             >
               <option value="">Select a product</option>
+              <option value="add">+ Add Product</option>
               {products.map((product) => (
                 <option key={product.id} value={product.id}>
                   {product.name}
@@ -100,10 +110,17 @@ const PurchasePage = () => {
 
             <select
               value={supplierId}
-              onChange={(e) => setSuppplierId(e.target.value)}
+              onChange={(e) => {
+                if (e.target.value === "add-supplier") {
+                  navigate("/add-supplier");
+                } else {
+                  setSuppplierId(e.target.value);
+                }
+              }}
               required
             >
               <option value="">Select a supplier</option>
+              <option value="add-supplier">+ Add Supplier</option>
               {suppliers.map((supplier) => (
                 <option key={supplier.id} value={supplier.id}>
                   {supplier.name}

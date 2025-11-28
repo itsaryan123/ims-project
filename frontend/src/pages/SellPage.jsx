@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../component/Layout";
 import ApiService from "../service/ApiService";
+import { useNavigate } from "react-router-dom";
 
 const SellPage = () => {
   const [products, setProducts] = useState([]);
@@ -9,6 +10,8 @@ const SellPage = () => {
   const [note, setNote] = useState("");
   const [quantity, setQuantity] = useState("");
   const [message, setMessage] = useState("");
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -75,10 +78,17 @@ const SellPage = () => {
 
             <select
               value={productId}
-              onChange={(e) => setProductId(e.target.value)}
+              onChange={(e) => {
+                if (e.target.value === "add") {
+                  navigate("/add-product");
+                } else {
+                  setProductId(e.target.value);
+                }
+              }}
               required
             >
               <option value="">Select a product</option>
+              <option value="add">+ Add Product</option>
               {products.map((product) => (
                 <option key={product.id} value={product.id}>
                   {product.name}
